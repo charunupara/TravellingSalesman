@@ -1,9 +1,40 @@
 # Find the minimum element of a list
-def min_list(arr):
+def min_row(arr):
     return min(i for i in arr if i is not None)
 
+# Find the minimum element of a column in a matrix
+def min_column(graph, n):
+    j = 0
+    min = graph[j][n]
+    while(min == None):
+        j += 1
+        min = graph[j][n]
+    for i in range(1, len(graph)):
+        if graph[i][n] != None: 
+            if graph[i][n] < min:
+                min = graph[i][n]
+
+    return min        
+
 #TODO Write row reduction function
+def row_reduce(graph):
+    for i in range(0, len(graph)):
+        minRow = min_row(graph[i])
+        for j in range(0, len(graph[i])):
+            if(graph[i][j] != None):
+                graph[i][j] -= minRow
+
+
 #TODO Write column reduction function
+def column_reduce(graph):
+    for i in range(0, len(graph)):
+        minColumn = min_column(graph, i)
+        for j in range(0 ,len(graph)):
+            if(graph[j][i] != None):
+                graph[j][i] -= minColumn
+        
+    
+
 #TODO Write function to block out appropriate row, column, and cell for calculating bound
 #       * This function could return a new 2D array
 
@@ -15,15 +46,14 @@ graph = [[None, 10, 8, 9, 7],
          [7, 6, 9, 6, None]]
 
 
-rc1 = min_list(graph[0]) + min_list(graph[1]) + min_list(graph[2]) + min_list(graph[3]) + min_list(graph[4])
+rc1 = min_row(graph[0]) + min_row(graph[1]) + min_row(graph[2]) + min_row(graph[3]) + min_row(graph[4])
 
+row_reduce(graph)
+column_reduce(graph)
 print(rc1)
 
-for i in range(0, len(graph)):
-    min_row = min_list(graph[i])
-    for j in range(0, len(graph[i])):
-        if(graph[i][j] != None):
-            graph[i][j] -= min_row
+
+
 
 
 
