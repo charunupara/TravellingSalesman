@@ -1,5 +1,6 @@
 # Find the minimum element of a list
 def min_row(arr):
+    # TODO edge case: row only contains None
     return min(i for i in arr if i is not None)
 
 # Find the minimum element of a column in a matrix
@@ -16,7 +17,7 @@ def min_column(graph, n):
 
     return min        
 
-#TODO Write row reduction function
+# Perform and compute cost of row reduction
 def row_reduce(graph):
     cost = 0
     for i in range(0, len(graph)):
@@ -29,7 +30,7 @@ def row_reduce(graph):
     return cost
 
 
-#TODO Write column reduction function
+# Perform and compute cost of column reduction
 def column_reduce(graph):
     cost = 0
     for i in range(0, len(graph)):
@@ -42,8 +43,25 @@ def column_reduce(graph):
     return cost
     
 
-#TODO Write function to block out appropriate row, column, and cell for calculating bound
-#       * This function could return a new 2D array
+# Generate new matrix according to blocking
+def generate_new_matrix(graph, n, m):
+    new_matrix = graph.copy()
+
+    for row in range(0, len(graph)):
+        if(row == n):
+            for j in range(0, len(graph[row])):
+                new_matrix[row][j] = None
+            
+    for column in range(0, len(graph)):
+        if (column == m):
+            for j in range(0, len(graph)):
+                new_matrix[j][column] = None
+
+
+    new_matrix[m][0] = None
+
+    return new_matrix
+
 
 # Graph from handout example
 graph = [[None, 10, 8, 9, 7], 
@@ -53,17 +71,18 @@ graph = [[None, 10, 8, 9, 7],
          [7, 6, 9, 6, None]]
 
 
-rc1 = min_row(graph[0]) + min_row(graph[1]) + min_row(graph[2]) + min_row(graph[3]) + min_row(graph[4])
+
+rc = row_reduce(graph) + column_reduce(graph)
+lb = rc
 
 
-print(row_reduce(graph))
-print(column_reduce(graph))
+# Start walking from A
+a_to_b = generate_new_matrix(graph, 0, 1)
 
-
-
-
-
-
-
+print(row_reduce(a_to_b))
+# First, compute minimum cost from A-B edge
+# Then, add minimum cost from that to lb
+# Repeat for every other edge
+# Proceed with the edge that has the minimum combined cost
 
 
