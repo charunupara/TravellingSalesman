@@ -18,21 +18,28 @@ def min_column(graph, n):
 
 #TODO Write row reduction function
 def row_reduce(graph):
+    cost = 0
     for i in range(0, len(graph)):
         minRow = min_row(graph[i])
         for j in range(0, len(graph[i])):
             if(graph[i][j] != None):
                 graph[i][j] -= minRow
+        cost += minRow
+
+    return cost
 
 
 #TODO Write column reduction function
 def column_reduce(graph):
+    cost = 0
     for i in range(0, len(graph)):
         minColumn = min_column(graph, i)
         for j in range(0 ,len(graph)):
             if(graph[j][i] != None):
                 graph[j][i] -= minColumn
-        
+        cost += minColumn
+    
+    return cost
     
 
 #TODO Write function to block out appropriate row, column, and cell for calculating bound
@@ -48,9 +55,9 @@ graph = [[None, 10, 8, 9, 7],
 
 rc1 = min_row(graph[0]) + min_row(graph[1]) + min_row(graph[2]) + min_row(graph[3]) + min_row(graph[4])
 
-row_reduce(graph)
-column_reduce(graph)
-print(rc1)
+
+print(row_reduce(graph))
+print(column_reduce(graph))
 
 
 
